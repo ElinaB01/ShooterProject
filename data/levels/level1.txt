@@ -1,0 +1,7 @@
+# format: enemy type, amount in level
+
+fighter, 20
+
+# enemy ideas:
+# drone, jet, bomber, cargo plane
+# tank, tower, battleship
