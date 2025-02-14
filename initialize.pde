@@ -2,7 +2,7 @@ PImage img_bg;
 PImage spr_player, spr_enemy1, spr_projectile1, spr_explosion;
 
 int level;
-
+// Kas see jääb alles?
 void initGame() {
   enemies = new ArrayList<>();
   projectiles = new ArrayList<>();
