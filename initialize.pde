@@ -54,4 +54,5 @@ void loadGraphics() {
   
   spr_player.resize(80, 115);
   spr_enemy1.resize(80, 115);
+  spr_projectile1.resize(15,30);
 }
