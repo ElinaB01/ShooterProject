@@ -1,6 +1,6 @@
-# format: enemy type, amount in level
+# format: enemy type, hitpoints, score per kill, amount in level
 
-fighter, 20
+fighter, 20, 500, 25
 
 # enemy ideas:
 # drone, jet, bomber, cargo plane

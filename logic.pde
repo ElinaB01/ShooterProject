@@ -1,3 +1,5 @@
+int score;
+
 void updateGame() {
   int currentTime = millis();
   
@@ -15,12 +17,13 @@ void updateGame() {
       spawnEnemy(currentTime);
       
       updateEntities();
-      updatePlayer();
       updateProjectiles();
+      updatePlayer();
+      
+      drawInterface();
       
       // TODO:
       // add menu button in top-left corner
-      // add score and lives in the top-right corner
       break;
 
     // TODO:
@@ -37,6 +40,7 @@ void levelComplete() {
   enemies.clear();
   
   // TODO: proceed to the next level
+  // loadLevel("levels/level" + level + ".txt");
 }
 
 float followSpeed = 0.14f;
@@ -63,12 +67,28 @@ void updateEntities() {
 
 int fireRate = 240;
 int lastFire = 0;
+int missileCooldownMax = 100;
+int missileCooldown = missileCooldownMax;
 
 void weaponFire(int currentTime) {
-  if (currentTime - lastFire >= fireRate) {
-    projectiles.add(new Projectile(spr_projectile1, player.x + player.sprite.width / 2, player.y));
-    lastFire = currentTime;
+  if (mouseButton == LEFT) {
+    if (currentTime - lastFire >= fireRate) {
+      float x_center = player.x + player.sprite.width / 2 - 4;
+      projectiles.add(new Projectile("bullet", x_center, player.y));
+      lastFire = currentTime;
+    }
+  } else if (mouseButton == RIGHT) {
+    // TODO:
+    // player has limited amount of missiles (can buy more at the shop)
+    // creates blast damage on impact
+    // accelerates as it moves?
+    if (missileCooldown > missileCooldownMax) {
+      float x_center = player.x + player.sprite.width / 2 - 10;
+      projectiles.add(new Projectile("missile", x_center, player.y));
+      missileCooldown = 0;
+    }
   }
+  missileCooldown++;
 }
 
 void updateProjectiles() {
@@ -94,7 +114,7 @@ void spawnEnemy(int currentTime) {
       enemy.speedX = 0; // initialize for diagonal movement
       enemy.speedY = random(2.0f, 6.0f);
       
-      println("Spawn index " + enemyIndex); // debug
+      println("Spawn #" + enemyIndex + ":", enemy.type); // debug
       enemyIndex++;
     } else {
       levelComplete();

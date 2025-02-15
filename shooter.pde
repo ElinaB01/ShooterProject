@@ -5,19 +5,18 @@ PFont font;
 boolean mouseDown, K_UP, K_DOWN, K_LEFT, K_RIGHT;
 
 void debug() {
-  fill(0);
-  textSize(32);
-  text((int)frameRate, 20, 20); // FPS counter
+  fill(240);
+  textSize(16);
+  text("fps: " + (int)frameRate, 25, 790);
 }
 
 void setup() {
   size(600, 800);
   noStroke();
-  surface.setLocation((displayWidth - width) / 2,
-                      (displayHeight - height) / 2);
+  surface.setLocation((displayWidth - width) / 2, (displayHeight - height) / 2);
   
-  //font = createFont("replace-with-font-name.ttf", 128);
-  //textFont(font);
+  font = createFont("gunplay-rg.otf", 16);
+  textFont(font);
   
   loadGraphics();
   initGame();
