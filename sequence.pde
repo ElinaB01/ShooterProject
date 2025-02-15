@@ -20,7 +20,7 @@ void enterLevel() {
 
 void displayLevelInfo() {
   // TODO: animate the texts in and out
-  fill(240);
+  fill(255); //to make text white, once the font is added
   textAlign(CENTER, CENTER);
   textSize(64);
   text("LEVEL " + level, width / 2, 230);
