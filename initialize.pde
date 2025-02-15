@@ -1,5 +1,5 @@
 PImage img_bg;
-PImage spr_player, spr_enemy1, spr_projectile1, spr_explosion;
+PImage spr_player, spr_fighter, spr_bullet, spr_missile, spr_explosion;
 
 int level;
 
@@ -9,9 +9,11 @@ void initGame() {
   menuButtons = new ArrayList<>();
   player = new Entity(
       "player",                         /* identification type */
+      100,                              /* hitpoints */
+      0,                                /* score per kill (not applicable to player) */
       spr_player,                       /* starting sprite */
       width / 2 - spr_player.width / 2, /* horizontal position (center) */
-      height + spr_player.height * 2,   /* vertical (below the screen) */
+      height + spr_player.height * 2,   /* vertical pos (below the screen) */
       0, 0                              /* horizontal and vertical speed */
   );
   
@@ -33,10 +35,12 @@ void loadLevel(String path) {
     String[] parts = split(line, ",");
     
     String enemyType = parts[0];
-    int amount = int(parts[1]);
+    int hitpoints = int(parts[1]);
+    int scoreGain = int(parts[2]);
+    int amount = int(parts[3]);
     
     for (int i = 0; i < amount; i++) {
-      enemies.add(new Entity(enemyType, spr_enemy1, 0, 0, 0, 0));
+      enemies.add(new Entity(enemyType, hitpoints, scoreGain, spr_fighter, 0, 0, 0, 0));
     }
   }
   lastSpawn = 0;
@@ -48,10 +52,13 @@ void loadGraphics() {
   img_bg.resize(600, 400);
   
   spr_player = loadImage("graphics/player.png");
-  spr_enemy1 = loadImage("graphics/enemy1.png");
-  spr_projectile1 = loadImage("graphics/projectile1.png");
+  spr_fighter = loadImage("graphics/fighter.png");
+  spr_bullet = loadImage("graphics/rocket.png"); // TODO: add custom graphic
+  spr_missile = loadImage("graphics/rocket.png");
   spr_explosion = loadImage("graphics/explosion.png");
   
-  spr_player.resize(80, 115);
-  spr_enemy1.resize(80, 115);
+  spr_player.resize(90, 125);
+  spr_fighter.resize(75, 110);
+  spr_bullet.resize(8, 25);
+  spr_missile.resize(20, 60);
 }
