@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 PFont font;
+int score = 0;
 
 boolean mouseDown, K_UP, K_DOWN, K_LEFT, K_RIGHT;
 
@@ -33,7 +34,14 @@ void draw() {
   } else {
     updateGame();
   }
-  
+  drawScore(); // Showing score
   // TEMPORARY
   debug();
+}
+
+void drawScore() {
+  fill(255);
+  textSize(32);
+  textAlign(RIGHT, TOP);
+  text("Score: " + score, width - 20, 20);
 }

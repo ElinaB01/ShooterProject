@@ -47,9 +47,10 @@ class Entity {
           p.x < x + sprite.width &&
           p.x + p.w > x) {
         projectiles.remove(i);
+        score += 100; // adds 100 points to score
         return true;
       }
     }
-    return false;
+    return false;   
   }
 }
