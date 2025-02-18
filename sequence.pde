@@ -30,6 +30,7 @@ void displayLevelInfo() {
   if (mousePressed) {
     gameState = STATE_PLAYING;
     player.active = true;
+    noCursor();
     
     // BUG: one bullet gets fired here
   }
