@@ -2,6 +2,8 @@ ArrayList<Entity> enemies;
 
 Entity player;
 
+int eliminated = 0;
+
 class Entity {
   String type;
   PImage sprite;
@@ -54,6 +56,7 @@ class Entity {
         
         if (hitpoints <= 0) {
           score += scoreGain;
+          eliminated += 1;
           return true;
         }
       }
