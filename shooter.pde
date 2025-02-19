@@ -10,6 +10,8 @@ void debug() {
   text("fps: " + (int)frameRate, 25, 790);
 }
 
+ArrayList<Projectile> projectiles = new ArrayList<>();
+
 void setup() {
   size(600, 800);
   noStroke();
@@ -31,14 +33,9 @@ void draw() {
     drawMainMenu();
   } else {
     updateGame();
+    drawInterface();
   }
+  
   // TEMPORARY
   debug();
-}
-
-void drawScore() {
-  fill(255);
-  textSize(32);
-  textAlign(RIGHT, TOP);
-  text("Score: " + score, width - 20, 20);
 }
