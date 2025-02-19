@@ -65,10 +65,16 @@ void updatePlayer() {
 }
 
 void updateEntities() {
-  for (int i = 0; i < enemies.size(); i++) {
+  for (int i = enemies.size() - 1; i >= 0; i--) {  // Kordamööda tagurpidi
     Entity enemy = enemies.get(i);
-    // ignore enemies that are dead or have not spawned in yet
-    if (enemy.destroyed || !enemy.active) continue;
+
+    if (enemy.destroyed) {  
+      enemies.remove(i); // Kustutab hävinenud vaenlased
+      continue;  // Hüppa järgmise tsükli juurde, et vältida update/renderi käivitamist
+    }
+
+    if (!enemy.active) continue; // Ignoreeri veel aktiivseks muutmata vaenlasi
+    
     enemy.update();
     enemy.render();
   }
@@ -83,7 +89,7 @@ void weaponFire(int currentTime) {
   if (mouseButton == LEFT) {
     if (currentTime - lastFire >= fireRate) {
       float x_center = player.x + player.sprite.width / 2 - 4;
-      projectiles.add(new Projectile("bullet", x_center, player.y));
+      projectiles.add(new Projectile("bullet", x_center, player.y, false));
       lastFire = currentTime;
     }
   } else if (mouseButton == RIGHT) {
@@ -93,7 +99,7 @@ void weaponFire(int currentTime) {
     // accelerates as it moves?
     if (missileCooldown > missileCooldownMax) {
       float x_center = player.x + player.sprite.width / 2 - 10;
-      projectiles.add(new Projectile("missile", x_center, player.y));
+      projectiles.add(new Projectile("missile", x_center, player.y, false));
       missileCooldown = 0;
     }
   }

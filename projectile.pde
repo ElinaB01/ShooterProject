@@ -1,5 +1,3 @@
-ArrayList<Projectile> projectiles;
-
 class Projectile {
   String type;
   PImage sprite;
@@ -8,11 +6,13 @@ class Projectile {
   int w, h;
   int damage;
   boolean destroyed;
+  boolean enemyProjectile;
   
-  public Projectile(String type, float x, float y) {
+  public Projectile(String type, float x, float y, boolean enemyProjectile) {
     this.type = type;
     this.x = x;
     this.y = y;
+    this.enemyProjectile = enemyProjectile;
     
     // TEMPORARY //
       if (type == "bullet") {
@@ -27,7 +27,13 @@ class Projectile {
         sprite = spr_missile;
         damage = 50;
         speedY = -14.0f;
-      }
+      } else if (type.equals("enemy_bullet")) {
+        w = 8;
+        h = 25;
+        sprite = spr_bullet;
+        damage = 10;
+        speedY = 8.0f;
+      }  
     // TEMPORARY //
   }
   
