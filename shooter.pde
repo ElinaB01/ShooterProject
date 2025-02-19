@@ -32,7 +32,13 @@ void draw() {
   } else {
     updateGame();
   }
-  
   // TEMPORARY
   debug();
+}
+
+void drawScore() {
+  fill(255);
+  textSize(32);
+  textAlign(RIGHT, TOP);
+  text("Score: " + score, width - 20, 20);
 }
