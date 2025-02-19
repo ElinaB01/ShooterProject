@@ -53,14 +53,10 @@ class Entity {
           p.x + p.w > x) {
         hitpoints -= p.damage;
         projectiles.remove(i);
-        
-        if (hitpoints <= 0) {
-          score += scoreGain;
-          eliminated += 1;
-          return true;
-        }
+        score += 100; // adds 100 points to score
+        return true;
       }
     }
-    return false;
+    return false;   
   }
 }
