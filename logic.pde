@@ -21,6 +21,15 @@ void updateGame() {
       updatePlayer();
       
       drawInterface();
+
+      for (int i = powerUps.size() - 1; i >= 0; i--) {
+        powerUps.get(i).update();
+        powerUps.get(i).render();
+
+        if (powerUps.get(i).collected) {
+          powerUps.remove(i);
+        }
+      }
       
       // TODO:
       // add menu button in top-left corner
