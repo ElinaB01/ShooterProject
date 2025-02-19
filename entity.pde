@@ -57,6 +57,11 @@ class Entity {
         if (hitpoints <= 0) {
           score += scoreGain;
           eliminated += 1;
+
+          if (random(1) < 0.2) {
+            powerUps.add(new PowerUp(x,y));
+          }
+
           return true;
         }
       }
