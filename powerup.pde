@@ -16,7 +16,7 @@ class PowerUp {
     public void update() {
         y += 2;
 
-        if (dist(player.x + player.sprite.width / 2, player.y + player.sprite.height / 2, x, y) < 30) {
+        if (dist(player.x + player.sprite.width / 2, player.y + player.sprite.height / 2, x, y) < 40) {
             collected = true;
             increasePlayerHealth();
         }
@@ -29,8 +29,8 @@ class PowerUp {
     }
 
     private void increasePlayerHealth() {
-        if (player.hitpoints < 100) {
-            player.hitpoints = min(player.hitpoints + 20, 100);
+        if (player.lives < 5) {
+            player.lives = min(player.lives + 1, 5);
         }
     }
 }
