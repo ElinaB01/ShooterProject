@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
+
 PFont font;
+SoundManager soundManager;
 
 boolean mouseDown, K_UP, K_DOWN, K_LEFT, K_RIGHT;
 
@@ -24,6 +26,17 @@ void setup() {
   initGame();
   
   menuSetup();
+  
+  soundManager = new SoundManager(this);
+}
+
+void keyPressed() {
+  if (key == 's' || key == 'S') {
+    soundManager.stopMusic();  // Vajutades S peatab muusika
+  }
+  if (key == 'p' || key == 'P') {
+    soundManager.playMusic();  // Vajutades P mängib uuesti
+  }
 }
 
 void draw() {
