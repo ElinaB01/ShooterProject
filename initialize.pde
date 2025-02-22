@@ -8,6 +8,7 @@ void initGame() {
   projectiles = new ArrayList<>();
   menuButtons = new ArrayList<>();
   player = new Entity(
+      this,                             // Pass the PApplet instance
       "player",                         /* identification type */
       100,                              /* hitpoints */
       0,                                /* score per kill (not applicable to player) */
@@ -40,7 +41,7 @@ void loadLevel(String path) {
     int amount = int(parts[3]);
     
     for (int i = 0; i < amount; i++) {
-      enemies.add(new Entity(enemyType, hitpoints, scoreGain, spr_fighter, 0, 0, 0, 0));
+      enemies.add(new Entity(this, enemyType, hitpoints, scoreGain, spr_fighter, 0, 0, 0, 0));
     }
   }
   lastSpawn = 0;
