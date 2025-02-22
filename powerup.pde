@@ -1,15 +1,17 @@
+import gifAnimation.*;
+import processing.core.PApplet;
 ArrayList<PowerUp> powerUps = new ArrayList<>();
 
 class PowerUp {
     float x, y;
-    PImage sprite;
+    Gif sprite;
     boolean collected;
 
-    public PowerUp(float x, float y) {
+    public PowerUp(PApplet p, float x, float y) {
         this.x = x;
         this.y = y;
-        this.sprite = loadImage("graphics/powerup.png");
-        this.sprite.resize(30, 30);
+        this.sprite = new Gif(p, "graphics/elu_powerup.gif");
+        this.sprite.loop();
         this.collected = false;
     }
 
@@ -33,4 +35,9 @@ class PowerUp {
             player.lives = min(player.lives + 1, 5);
         }
     }
+    public void display(PApplet p) {
+    if (!collected) {
+      p.image(sprite, x, y);
+    }
+  }
 }

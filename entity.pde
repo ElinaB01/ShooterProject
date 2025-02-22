@@ -1,10 +1,10 @@
 ArrayList<Entity> enemies;
-
 Entity player;
 
 int eliminated = 0;
 
 class Entity {
+  PApplet p; // Add this variable to store the PApplet instance
   int lives = 5;
   String type;
   PImage sprite;
@@ -20,7 +20,8 @@ class Entity {
   final int STATE_MENU = 2;
   int gameState = STATE_MENU;
   
-  public Entity(String type, int hitpoints, int scoreGain, PImage img, float x, float y, float speedX, float speedY) {
+  public Entity(PApplet p, String type, int hitpoints, int scoreGain, PImage img, float x, float y, float speedX, float speedY) {
+    this.p = p;
     this.type = type;
     this.hitpoints = hitpoints;
     this.scoreGain = scoreGain;
@@ -87,7 +88,8 @@ class Entity {
           eliminated += 1;
 
           if (random(1) < 0.3) {
-            powerUps.add(new PowerUp(x,y));
+            // Use the stored PApplet instance (this.p) to create a PowerUp
+            powerUps.add(new PowerUp(this.p, x,y));
           }
 
           return true;
