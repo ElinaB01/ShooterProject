@@ -8,6 +8,10 @@ class Entity {
   int lives = 5;
   String type;
   PImage sprite;
+  int currentFrame = 19; // Start at frame 20 (index 19) - no rotation
+  int targetFrame = 19; // Target frame for smooth animation
+  float baseSpeed = 1; // Speed of animation transition
+  float speedFactor = 0.2;
   float x, y;
   float speedX, speedY;
   int hitpoints, scoreGain; // how much score is gained for destroying this enemy
@@ -47,28 +51,82 @@ class Entity {
     if (type.equals("player")) {
         checkPlayerCollision();
         checkEntityCollision();
+        // Animation logic for the player
+        float mouseDelta = mouseX - pmouseX; // Positive = moving right, Negative = moving left
+    if (mouseDelta < 0) {
+      // Moving left: animate from frame 20 to frame 0
+      targetFrame = 0;
+    } else if (mouseDelta > 0) {
+      // Moving right: animate from frame 20 to frame 38
+      targetFrame = 38;
     } else {
-        y += speedY;
-        destroyed = y > height || checkCollision();
-
-        if (millis() - lastFire >= fireRate) {
-            enemyFire();
-            lastFire = millis();
-            if (frameCount % 90 == 0 && random(1) < 0.3) { 
-              enemyFire();
-            }
-        }
+      // Not moving: return to frame 20
+      targetFrame = 19;
     }
+    // Smoothly transition to the target frame
+    if (currentFrame != targetFrame) {
+      float dynamicSpeed = baseSpeed+abs(currentFrame - targetFrame)/10;
+      // Check for fast turn conditions:
+      boolean fastRightTurn = (currentFrame < 21 && targetFrame >= 21);
+      boolean fastLeftTurn  = (currentFrame > 17 && targetFrame <= 17);
+      if (fastRightTurn || fastLeftTurn) {
+    // Increase speed for fast turns
+    float fastMultiplier = 3; // adjust as needed for a fast turn
+    dynamicSpeed *= fastMultiplier;
+}
+        println("currentFrame: " + currentFrame + ", targetFrame: " + targetFrame +
+        ", dynamicSpeed: " + dynamicSpeed +
+        ", fastRightTurn: " + fastRightTurn +
+        ", fastLeftTurn: " + fastLeftTurn);
+      if (currentFrame < targetFrame ) {
+        currentFrame += dynamicSpeed;
+      } else if (currentFrame > targetFrame) {
+        currentFrame -= dynamicSpeed;
+      }
+
+      // Ensure currentFrame doesn't overshoot the targetFrame
+      if (abs(currentFrame - targetFrame) < dynamicSpeed) {
+        currentFrame = targetFrame; // Snap to the target frame
+      }
+    }
+
+    // Clamp the frame to valid range
+    currentFrame = constrain(currentFrame, 0, 38);
+  } else {
+    // Existing enemy logic
+    y += speedY;
+    destroyed = y > height || checkCollision();
+
+    if (millis() - lastFire >= fireRate) {
+      enemyFire();
+      lastFire = millis();
+      if (frameCount % 90 == 0 && random(1) < 0.3) { 
+        enemyFire();
+      }
+    }
+  }
+    
+    
 }
 
   private void enemyFire() {
     projectiles.add(new Projectile("enemy_bullet", x + sprite.width / 2, y + sprite.height, true));
   }
   
-  public void render() {
-    // set sprite to animation frame here
+public void render() {
+  if (type.equals("player")) {
+    // Check if playerFrames is initialized and currentFrame is valid
+    if (playerFrames != null && currentFrame >= 0 && currentFrame < playerFrames.length) {
+      // Display the current frame
+      image(playerFrames[currentFrame], x, y);
+    } else {
+      println("Error: playerFrames not initialized or invalid currentFrame!");
+    }
+  } else {
+    // Render other entities as before
     image(sprite, x, y);
   }
+}
   
   private boolean checkCollision() {
     for (int i = 0; i < projectiles.size(); i++) {

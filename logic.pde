@@ -2,7 +2,6 @@ int score;
 
 void updateGame() {
   int currentTime = millis();
-  
   switch (gameState) {
     case STATE_ENTERING_LEVEL:
       scrollBackground();
