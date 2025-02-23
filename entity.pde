@@ -11,6 +11,7 @@ class Entity {
   int currentFrame = 19; // Start at frame 20 (index 19) - no rotation
   int targetFrame = 19; // Target frame for smooth animation
   float baseSpeed = 1; // Speed of animation transition
+  float deadzone = 5f;
   float speedFactor = 0.2;
   float x, y;
   float speedX, speedY;
@@ -53,16 +54,16 @@ class Entity {
         checkEntityCollision();
         // Animation logic for the player
         float mouseDelta = mouseX - pmouseX; // Positive = moving right, Negative = moving left
-    if (mouseDelta < 0) {
-      // Moving left: animate from frame 20 to frame 0
-      targetFrame = 0;
-    } else if (mouseDelta > 0) {
-      // Moving right: animate from frame 20 to frame 38
-      targetFrame = 38;
-    } else {
-      // Not moving: return to frame 20
-      targetFrame = 19;
-    }
+// If the mouse movement is too small, consider it as no movement
+if (abs(mouseDelta) < deadzone) {
+    targetFrame = 19; // Still frame
+} else if (mouseDelta < 0) {
+    // Moving left: animate from frame 20 to frame 0
+    targetFrame = 0;
+} else if (mouseDelta > 0) {
+    // Moving right: animate from frame 20 to frame 38
+    targetFrame = 38;
+}
     // Smoothly transition to the target frame
     if (currentFrame != targetFrame) {
       float dynamicSpeed = baseSpeed+abs(currentFrame - targetFrame)/10;
